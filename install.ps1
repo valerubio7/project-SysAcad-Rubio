@@ -9,3 +9,6 @@ if (!(Test-Path -Path ".\.venv")) {
 
 # Activar el entorno virtual
 & ".\.venv\Scripts\Activate.ps1"
+
+# Descargar dependencias
+pip3 install -r requirements.txt
