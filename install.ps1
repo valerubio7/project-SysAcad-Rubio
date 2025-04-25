@@ -2,8 +2,10 @@
 # para ello abrir la consola de PowerShell como administrador y ejecutar:
 # Set-ExecutionPolicy RemoteSigned
 
-# Activar el entorno virtual
-# Cambiar la ruta del entorno virtual si es necesario
-& "$env:USERPROFILE\environments\gral_env\Scripts\Activate.ps1"
+# Crear el entorno virtual si no existe
+if (!(Test-Path -Path ".\.venv")) {
+    python -m venv .venv
+}
 
-pip3 install -r requirements.txt
+# Activar el entorno virtual
+& ".\.venv\Scripts\Activate.ps1"
