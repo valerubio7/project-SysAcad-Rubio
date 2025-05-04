@@ -1,0 +1,113 @@
+@startuml Diagrama de Clases de sysacad
+package "Sistema Académico"{
+
+    class Usuario {
+        - id: int
+        - nombre: str
+        - apellido: str
+        - email: str
+        - dni: str
+        - fechaNacimiento: date
+        - telefono: str
+        - direccion: str
+        - tipoUsuario: str
+        - contrasena: str
+    }
+
+    class Alumno {
+        - legajo: int
+        - fechaIngreso: date
+        - sexo: str
+    }
+
+    class Docente {
+        - legajoDocente: int
+        - titulo: str
+    }
+
+    class Administrador {
+        - nivelAcceso: str
+    }
+    
+    class Facultad {
+        - nombre: str
+        - sigla: str
+        - domicilio: str
+        - telefono: str
+        - email: str
+    }
+
+    class Materia {
+        - nombre: str
+        - codigo: str
+        - departamento: str
+        - cargaHoraria: int
+        - tipo: str
+    }
+
+    class Carrera{
+        - nombre: str
+        - duracion: int
+        - tipo: str
+        - fechaApertura: date
+    }
+
+    class PlanEstudio{
+        - nombre: str
+        - fechaAprobacion: date
+    }
+
+    class ExamenFinal{
+        - fecha: date
+        - hora: time
+        - aula: str
+    }
+
+    class Inscripcion{
+        - fechaInscripcion: date
+        - estado: str
+        - tipo: str
+    }
+
+    class InscripcionExamen{
+
+    }
+
+    class InscripcionMateria{
+    }
+
+    class Correlatividad{
+        - estado: str
+    }
+
+
+
+    Usuario <-- Alumno
+    Usuario <-- Docente
+    Usuario <-- Administrador
+
+    Alumno -- Inscripcion
+    Docente -- Materia
+    Docente -- ExamenFinal
+
+    Inscripcion <-- InscripcionExamen
+    Inscripcion <-- InscripcionMateria
+
+    InscripcionExamen -- ExamenFinal
+    InscripcionMateria -- Materia
+
+    Facultad -- Carrera
+    Carrera -- PlanEstudio
+    PlanEstudio -- Materia
+
+    Correlatividad -- InscripcionMateria
+    Correlatividad -- PlanEstudio
+
+    Materia -- ExamenFinal
+
+    Administrador -- Facultad
+    Administrador -- PlanEstudio
+    Administrador -- Alumno
+
+}
+@enduml
