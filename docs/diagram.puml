@@ -1,7 +1,7 @@
-@startuml Diagrama de Clases de sysacad
-package "Sistema Académico"{
+@startuml Diagrama de Clases Mejorado - SysAcad
+package "Sistema Académico" {
 
-    class Usuario {
+    abstract class Usuario {
         - id: int
         - nombre: str
         - apellido: str
@@ -10,7 +10,6 @@ package "Sistema Académico"{
         - fechaNacimiento: date
         - telefono: str
         - direccion: str
-        - tipoUsuario: str
         - contrasena: str
     }
 
@@ -28,7 +27,7 @@ package "Sistema Académico"{
     class Administrador {
         - nivelAcceso: str
     }
-    
+
     class Facultad {
         - nombre: str
         - sigla: str
@@ -45,69 +44,78 @@ package "Sistema Académico"{
         - tipo: str
     }
 
-    class Carrera{
+    class Carrera {
         - nombre: str
         - duracion: int
         - tipo: str
         - fechaApertura: date
     }
 
-    class PlanEstudio{
+    class PlanEstudio {
         - nombre: str
         - fechaAprobacion: date
     }
 
-    class ExamenFinal{
+    class ExamenFinal {
         - fecha: date
         - hora: time
         - aula: str
+        - promocion: bool
     }
 
-    class Inscripcion{
+    abstract class Inscripcion {
         - fechaInscripcion: date
+        - estado: str
+    }
+
+    class InscripcionExamen {
+        - fechaExamen: date
+        - aula: str
+    }
+
+    class InscripcionMateria {
+        - comision: int
+        - anualidad: bool
+    }
+
+    class Correlatividad {
         - estado: str
         - tipo: str
     }
 
-    class InscripcionExamen{
+    ' Herencia
+    Usuario <|-- Alumno
+    Usuario <|-- Docente
+    Usuario <|-- Administrador
 
-    }
+    Inscripcion <|-- InscripcionMateria
+    Inscripcion <|-- InscripcionExamen
 
-    class InscripcionMateria{
-    }
+    ' Relaciones principales
+    Alumno --> InscripcionMateria         : 0..* inscribe
+    Alumno --> InscripcionExamen          : 0..* rinde
+    Alumno --> Carrera                    : 1 cursa
 
-    class Correlatividad{
-        - estado: str
-    }
+    Docente --> Materia                   : 0..* enseña
+    Docente --> ExamenFinal               : 0..* evalúa
 
+    Inscripcion --> Docente               : 1 asignado
 
+    InscripcionExamen --> ExamenFinal     : 1 corresponde
+    InscripcionMateria --> Materia        : 1 materia
 
-    Usuario <-- Alumno
-    Usuario <-- Docente
-    Usuario <-- Administrador
+    Facultad --> Carrera                  : 1..* ofrece
+    Carrera --> PlanEstudio               : 1 tiene
+    PlanEstudio --> Materia               : 1..* contiene
 
-    Alumno -- Inscripcion
-    Docente -- Materia
-    Docente -- ExamenFinal
+    Correlatividad --> Materia            : 1 correlativa
+    Correlatividad --> PlanEstudio        : 1 en
 
-    Inscripcion <-- InscripcionExamen
-    Inscripcion <-- InscripcionMateria
+    Materia --> ExamenFinal               : 0..* tiene
 
-    InscripcionExamen -- ExamenFinal
-    InscripcionMateria -- Materia
-
-    Facultad -- Carrera
-    Carrera -- PlanEstudio
-    PlanEstudio -- Materia
-
-    Correlatividad -- InscripcionMateria
-    Correlatividad -- PlanEstudio
-
-    Materia -- ExamenFinal
-
-    Administrador -- Facultad
-    Administrador -- PlanEstudio
-    Administrador -- Alumno
+    Administrador --> Facultad            : 0..* administra
+    Administrador --> PlanEstudio         : 0..* supervisa
+    Administrador --> Alumno              : 0..* gestiona
 
 }
 @enduml
