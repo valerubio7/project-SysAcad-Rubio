@@ -22,6 +22,7 @@ class ConnectionTestCase(unittest.TestCase):
     def test_db_connection(self):
         result = db.session.query(text("'Hello world'")).one()
         self.assertEqual(result[0], 'Hello world')
-    
+
+
 if __name__ == '__main__':
     unittest.main()
