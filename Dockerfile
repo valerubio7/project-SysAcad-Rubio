@@ -16,7 +16,7 @@ USER flaskapp
 RUN mkdir app
 
 COPY ./app ./app
-COPY ./app.py .
+COPY ./run.py .
 
 ADD requirements.txt ./requirements.txt
 
@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-CMD [ "python", "./app.py" ]
+CMD [ "python", "./run.py" ]
