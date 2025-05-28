@@ -1,6 +1,4 @@
 from asyncio.log import logger
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
 from dotenv import load_dotenv
 from pathlib import Path
 import os
@@ -12,7 +10,7 @@ class Config(object):
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
-
+    
     @staticmethod
     def init_app(app):
         pass
@@ -22,8 +20,7 @@ class TestConfig(Config):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI')
-
-
+    
 class DevelopmentConfig(Config):
     TESTING = True
     DEBUG = True
