@@ -1,5 +1,6 @@
 import unittest
 import os
+import datetime
 from flask import current_app
 from app import create_app, db
 from app.models.orientacion import Orientacion
@@ -32,8 +33,8 @@ class OrientacionTestCase(unittest.TestCase):
 
         plan = Plan()
         plan.nombre = "Plan A"
-        plan.fecha_inicio = "2025-01-01"  # Usar snake_case
-        plan.fecha_fin = "2025-12-31"      # Usar snake_case
+        plan.fecha_inicio = datetime.date(2025, 1, 1)
+        plan.fecha_fin = datetime.date(2025, 12, 31)
         plan.observacion = "Observación de plan"
         db.session.add(plan)
         db.session.commit()
