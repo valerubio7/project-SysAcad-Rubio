@@ -2,7 +2,7 @@ import unittest
 import os
 from flask import current_app
 from app import create_app, db
-from app.models.categoriacargo import CategoriaCargo
+from app.models.categoria_cargo import CategoriaCargo
 
 
 class CategoriaCargoTestCase(unittest.TestCase):

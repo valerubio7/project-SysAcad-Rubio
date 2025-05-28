@@ -3,8 +3,8 @@ import os
 from flask import current_app
 from app import create_app, db
 from app.models.cargo import Cargo
-from app.models.categoriacargo import CategoriaCargo
-from app.models.tipodedicacion import TipoDedicacion
+from app.models.categoria_cargo import CategoriaCargo
+from app.models.tipo_dedicacion import TipoDedicacion
 
 class CargoTestCase(unittest.TestCase):
     def setUp(self):

@@ -2,7 +2,7 @@ import unittest
 import os
 from flask import current_app
 from app import create_app, db
-from app.models.tipodedicacion import TipoDedicacion
+from app.models.tipo_dedicacion import TipoDedicacion
 
 class TipoDedicacionTestCase(unittest.TestCase):
     def setUp(self):
