@@ -20,12 +20,25 @@ class FacultadTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_facultad_creation(self):
-        facultad = self.__nuevafacultad()
-        self.assertIsNotNone(facultad)
-        self.assertIsNotNone(facultad.nombre)
+        facultad = Facultad()
+        facultad.nombre = "Facultad de Ciencias"
+        facultad.abreviatura = "FCC"
+        facultad.directorio = "/facultad/ciencias"
+        facultad.sigla = "FC"
+        facultad.codigopostal = "12345"
+        facultad.ciudad = "Ciudad"
+        facultad.domicilio = "Calle 123"
+        facultad.telefono = "123456789"
+        facultad.contacto = "Juan Perez"
+        facultad.email = "1234@gmail.com"
+
+        # Save to database
+        db.session.add(facultad)
+        db.session.commit()
+
+        # Verify it was saved
+        self.assertIsNotNone(facultad.id)
         self.assertEqual(facultad.nombre, "Facultad de Ciencias")
-        self.assertEqual(facultad.abreviatura, "FCC")
-        self.assertEqual(facultad.directorio, "/facultad/ciencias")
 
     def test_crear_facultad(self):
         facultad = self.__nuevafacultad()
@@ -54,11 +67,15 @@ class FacultadTestCase(unittest.TestCase):
         self.assertEqual(len(facultades), 2)
 
     def test_actualizar_facultad(self):
-        facultad= self.__nuevafacultad()
+        facultad = self.__nuevafacultad()
         FacultadService.crear_facultad(facultad)
         facultad.nombre = "Facultad de Ciencias Actualizada"
-        facultad_actualizada = FacultadService.actualizar_facultad(facultad.id, facultad)
-        self.assertEqual(facultad_actualizada.nombre, "Facultad de Ciencias Actualizada")
+        facultad_actualizada = FacultadService.actualizar_facultad(
+            facultad.id, facultad
+        )
+        self.assertEqual(
+            facultad_actualizada.nombre, "Facultad de Ciencias Actualizada"
+        )
 
     def test_borrar_facultad(self):
         facultad = self.__nuevafacultad()

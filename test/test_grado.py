@@ -1,6 +1,5 @@
 import unittest
 import os
-from flask import current_app
 from app import create_app
 from app.models import Grado
 from app.services import GradoService
