@@ -3,8 +3,6 @@ import os
 from flask import current_app
 from app import create_app, db
 from app.models.plan import Plan
-from alembic.command import upgrade
-from alembic.config import Config
 from datetime import date
 
 
@@ -16,10 +14,7 @@ class PlanTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()  # Crear todas las tablas necesarias
-
-        # Apply Alembic migrations
-        alembic_cfg = Config("migrations/alembic.ini")
-        upgrade(alembic_cfg, "head")
+        # Eliminadas las migraciones Alembic para evitar conflicto de contextos
 
     def tearDown(self):
         db.session.remove()

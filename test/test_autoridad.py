@@ -22,6 +22,7 @@ class AutoridadTestCase(unittest.TestCase):
         # Crear y guardar un cargo
         cargo = Cargo()
         cargo.nombre = "Decano"
+        cargo.puntos = 1  # Asignar valor obligatorio
         db.session.add(cargo)
         db.session.commit()
 

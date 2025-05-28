@@ -6,8 +6,6 @@ from app.models.orientacion import Orientacion
 from app.models.especialidad import Especialidad
 from app.models.plan import Plan
 from app.models.materia import Materia
-from alembic.command import upgrade
-from alembic.config import Config
 
 
 class OrientacionTestCase(unittest.TestCase):
@@ -17,10 +15,7 @@ class OrientacionTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()  # Crear todas las tablas necesarias
-
-        # Apply Alembic migrations
-        alembic_cfg = Config("migrations/alembic.ini")
-        upgrade(alembic_cfg, "head")
+        # Eliminadas las migraciones Alembic para evitar conflicto de contextos
 
     def tearDown(self):
         db.session.remove()
@@ -30,16 +25,23 @@ class OrientacionTestCase(unittest.TestCase):
     def test_orientacion_creation(self):
         especialidad = Especialidad()
         especialidad.nombre = "Especialidad A"
+        especialidad.letra = "A"
+        especialidad.observacion = "Observación de prueba"
         db.session.add(especialidad)
         db.session.commit()
 
         plan = Plan()
         plan.nombre = "Plan A"
+        plan.fecha_inicio = "2025-01-01"  # Usar snake_case
+        plan.fecha_fin = "2025-12-31"      # Usar snake_case
+        plan.observacion = "Observación de plan"
         db.session.add(plan)
         db.session.commit()
 
         materia = Materia()
         materia.nombre = "Materia A"
+        materia.codigo = "MAT001"
+        materia.observacion = "Observación de materia"
         db.session.add(materia)
         db.session.commit()
 
