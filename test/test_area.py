@@ -27,3 +27,29 @@ class AreaTestCase(unittest.TestCase):
 
         # Verify it was saved
         self.assertIsNotNone(area.id)
+
+    def test_area_read(self):
+        area = Area(nombre="fisica")
+        db.session.add(area)
+        db.session.commit()
+        found = Area.query.filter_by(nombre="fisica").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "fisica")
+
+    def test_area_update(self):
+        area = Area(nombre="quimica")
+        db.session.add(area)
+        db.session.commit()
+        area.nombre = "biologia"
+        db.session.commit()
+        updated = Area.query.get(area.id)
+        self.assertEqual(updated.nombre, "biologia")
+
+    def test_area_delete(self):
+        area = Area(nombre="geografia")
+        db.session.add(area)
+        db.session.commit()
+        db.session.delete(area)
+        db.session.commit()
+        deleted = Area.query.get(area.id)
+        self.assertIsNone(deleted)
