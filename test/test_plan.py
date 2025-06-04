@@ -22,13 +22,13 @@ class PlanTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_plan_create(self):
-        plan = Plan(nombre="Plan CRUD", fecha_inicio="2025-01-01", fecha_fin="2025-12-31", observacion="Test create")
+        plan = Plan(nombre="Plan CRUD", fecha_inicio=date(2025, 1, 1), fecha_fin=date(2025, 12, 31), observacion="Test create")
         db.session.add(plan)
         db.session.commit()
         self.assertIsNotNone(plan.id)
 
     def test_plan_read(self):
-        plan = Plan(nombre="Plan Read", fecha_inicio="2026-01-01", fecha_fin="2026-12-31", observacion="Test read")
+        plan = Plan(nombre="Plan Read", fecha_inicio=date(2026, 1, 1), fecha_fin=date(2026, 12, 31), observacion="Test read")
         db.session.add(plan)
         db.session.commit()
         found = Plan.query.filter_by(nombre="Plan Read").first()
@@ -36,7 +36,7 @@ class PlanTestCase(unittest.TestCase):
         self.assertEqual(found.observacion, "Test read")
 
     def test_plan_update(self):
-        plan = Plan(nombre="Plan Update", fecha_inicio="2027-01-01", fecha_fin="2027-12-31", observacion="Test update")
+        plan = Plan(nombre="Plan Update", fecha_inicio=date(2027, 1, 1), fecha_fin=date(2027, 12, 31), observacion="Test update")
         db.session.add(plan)
         db.session.commit()
         plan.observacion = "Updated"
@@ -45,7 +45,7 @@ class PlanTestCase(unittest.TestCase):
         self.assertEqual(updated.observacion, "Updated")
 
     def test_plan_delete(self):
-        plan = Plan(nombre="Plan Delete", fecha_inicio="2028-01-01", fecha_fin="2028-12-31", observacion="Test delete")
+        plan = Plan(nombre="Plan Delete", fecha_inicio=date(2028, 1, 1), fecha_fin=date(2028, 12, 31), observacion="Test delete")
         db.session.add(plan)
         db.session.commit()
         db.session.delete(plan)
