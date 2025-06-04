@@ -45,3 +45,39 @@ class AutoridadTestCase(unittest.TestCase):
         # Validar relación entre Autoridad y Cargo
         self.assertIsNotNone(autoridad.cargo)
         self.assertEqual(autoridad.cargo.id, cargo.id)
+
+    def test_autoridad_read(self):
+        cargo = Cargo(nombre="Vicedecano", puntos=2)
+        db.session.add(cargo)
+        db.session.commit()
+        autoridad = Autoridad(nombre="Juan", cargo=cargo, telefono="987654321", email="juan@gmail.com")
+        db.session.add(autoridad)
+        db.session.commit()
+        found = Autoridad.query.filter_by(nombre="Juan").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.telefono, "987654321")
+        self.assertEqual(found.cargo.nombre, "Vicedecano")
+
+    def test_autoridad_update(self):
+        cargo = Cargo(nombre="Secretario", puntos=3)
+        db.session.add(cargo)
+        db.session.commit()
+        autoridad = Autoridad(nombre="Ana", cargo=cargo, telefono="111222333", email="ana@gmail.com")
+        db.session.add(autoridad)
+        db.session.commit()
+        autoridad.telefono = "444555666"
+        db.session.commit()
+        updated = db.session.get(Autoridad, autoridad.id)
+        self.assertEqual(updated.telefono, "444555666")
+
+    def test_autoridad_delete(self):
+        cargo = Cargo(nombre="Prosecretario", puntos=4)
+        db.session.add(cargo)
+        db.session.commit()
+        autoridad = Autoridad(nombre="Luis", cargo=cargo, telefono="555666777", email="luis@gmail.com")
+        db.session.add(autoridad)
+        db.session.commit()
+        db.session.delete(autoridad)
+        db.session.commit()
+        deleted = db.session.get(Autoridad, autoridad.id)
+        self.assertIsNone(deleted)

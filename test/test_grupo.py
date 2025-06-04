@@ -17,13 +17,34 @@ class GrupoTestCase(unittest.TestCase):
         db.drop_all()  # Limpiar todas las tablas
         self.app_context.pop()
 
-    def test_grupo_creation(self):
-        grupo = Grupo()
-        grupo.nombre = "Grupo A"
-
-        # Save to database
+    def test_grupo_create(self):
+        grupo = Grupo(nombre="Grupo A")
         db.session.add(grupo)
         db.session.commit()
-
-        # Verify it was saved
         self.assertIsNotNone(grupo.id)
+
+    def test_grupo_read(self):
+        grupo = Grupo(nombre="Grupo B")
+        db.session.add(grupo)
+        db.session.commit()
+        found = Grupo.query.filter_by(nombre="Grupo B").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "Grupo B")
+
+    def test_grupo_update(self):
+        grupo = Grupo(nombre="Grupo C")
+        db.session.add(grupo)
+        db.session.commit()
+        grupo.nombre = "Grupo D"
+        db.session.commit()
+        updated = db.session.get(Grupo, grupo.id)
+        self.assertEqual(updated.nombre, "Grupo D")
+
+    def test_grupo_delete(self):
+        grupo = Grupo(nombre="Grupo E")
+        db.session.add(grupo)
+        db.session.commit()
+        db.session.delete(grupo)
+        db.session.commit()
+        deleted = db.session.get(Grupo, grupo.id)
+        self.assertIsNone(deleted)

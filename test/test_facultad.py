@@ -97,3 +97,35 @@ class FacultadTestCase(unittest.TestCase):
         facultad.contacto = "Juan Perez"
         facultad.email = "1234@gmail.com"
         return facultad
+
+    def test_facultad_create(self):
+        facultad = Facultad(nombre="Facultad de Ingeniería", abreviatura="FI", directorio="Dir1", sigla="FI", codigopostal="1234", ciudad="CiudadX", domicilio="Calle 123", telefono="123456", contacto="ContactoX", email="fi@utn.edu.ar")
+        db.session.add(facultad)
+        db.session.commit()
+        self.assertIsNotNone(facultad.id)
+
+    def test_facultad_read(self):
+        facultad = Facultad(nombre="Facultad de Ciencias", abreviatura="FC", directorio="Dir2", sigla="FC", codigopostal="5678", ciudad="CiudadY", domicilio="Calle 456", telefono="654321", contacto="ContactoY", email="fc@utn.edu.ar")
+        db.session.add(facultad)
+        db.session.commit()
+        found = Facultad.query.filter_by(nombre="Facultad de Ciencias").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.abreviatura, "FC")
+
+    def test_facultad_update(self):
+        facultad = Facultad(nombre="Facultad de Química", abreviatura="FQ", directorio="Dir3", sigla="FQ", codigopostal="9999", ciudad="CiudadZ", domicilio="Calle 789", telefono="789123", contacto="ContactoZ", email="fq@utn.edu.ar")
+        db.session.add(facultad)
+        db.session.commit()
+        facultad.ciudad = "CiudadNueva"
+        db.session.commit()
+        updated = db.session.get(Facultad, facultad.id)
+        self.assertEqual(updated.ciudad, "CiudadNueva")
+
+    def test_facultad_delete(self):
+        facultad = Facultad(nombre="Facultad de Medicina", abreviatura="FM", directorio="Dir4", sigla="FM", codigopostal="8888", ciudad="CiudadM", domicilio="Calle 321", telefono="321654", contacto="ContactoM", email="fm@utn.edu.ar")
+        db.session.add(facultad)
+        db.session.commit()
+        db.session.delete(facultad)
+        db.session.commit()
+        deleted = db.session.get(Facultad, facultad.id)
+        self.assertIsNone(deleted)

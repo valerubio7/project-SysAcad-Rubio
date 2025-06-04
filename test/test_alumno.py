@@ -23,12 +23,48 @@ class AlumnoTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_alumno_creation(self):
-        alumno = self.__nuevoalumno()
-        self.assertIsNotNone(alumno)
-        self.assertIsNotNone(alumno.nombre)
-        self.assertEqual(alumno.nombre, "Juan")
-        self.assertEqual(alumno.apellido, "Pérez")
-        self.assertEqual(alumno.tipo_documento.pasaporte, "nacnal")
+        tipo_documento = TipoDocumento(dni="DNI")
+        db.session.add(tipo_documento)
+        db.session.commit()
+        alumno = Alumno(nombre="Juan", apellido="Pérez", nrodocumento="12345678", tipo_documento_id=tipo_documento.id, fecha_nacimiento=date(2000, 1, 1), sexo="M", nro_legajo=1, fecha_ingreso=date(2020, 3, 1))
+        db.session.add(alumno)
+        db.session.commit()
+        self.assertIsNotNone(alumno.id)
+
+    def test_alumno_read(self):
+        tipo_documento = TipoDocumento(dni="DNI")
+        db.session.add(tipo_documento)
+        db.session.commit()
+        alumno = Alumno(nombre="Ana", apellido="García", nrodocumento="87654321", tipo_documento_id=tipo_documento.id, fecha_nacimiento=date(2001, 2, 2), sexo="F", nro_legajo=2, fecha_ingreso=date(2021, 3, 1))
+        db.session.add(alumno)
+        db.session.commit()
+        found = Alumno.query.filter_by(nombre="Ana").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.apellido, "García")
+
+    def test_alumno_update(self):
+        tipo_documento = TipoDocumento(dni="DNI")
+        db.session.add(tipo_documento)
+        db.session.commit()
+        alumno = Alumno(nombre="Luis", apellido="Martínez", nrodocumento="11223344", tipo_documento_id=tipo_documento.id, fecha_nacimiento=date(2002, 3, 3), sexo="M", nro_legajo=3, fecha_ingreso=date(2022, 3, 1))
+        db.session.add(alumno)
+        db.session.commit()
+        alumno.apellido = "López"
+        db.session.commit()
+        updated = db.session.get(Alumno, alumno.id)
+        self.assertEqual(updated.apellido, "López")
+
+    def test_alumno_delete(self):
+        tipo_documento = TipoDocumento(dni="DNI")
+        db.session.add(tipo_documento)
+        db.session.commit()
+        alumno = Alumno(nombre="Sofía", apellido="Fernández", nrodocumento="44332211", tipo_documento_id=tipo_documento.id, fecha_nacimiento=date(2003, 4, 4), sexo="F", nro_legajo=4, fecha_ingreso=date(2023, 3, 1))
+        db.session.add(alumno)
+        db.session.commit()
+        db.session.delete(alumno)
+        db.session.commit()
+        deleted = db.session.get(Alumno, alumno.id)
+        self.assertIsNone(deleted)
 
     def test_crear(self):
         alumno = self.__nuevoalumno()
@@ -70,8 +106,6 @@ class AlumnoTestCase(unittest.TestCase):
         resultado = AlumnoService.buscar_por_id(alumno.id)
         self.assertIsNone(resultado)
 
-
-
     def __nuevoalumno(self, nombre="Juan", apellido="Pérez", nrodocumento="46291002" ,tipo_documento=None, fecha_nacimiento=date(1990,1,1), sexo="M", nro_legajo=123456, fecha_ingreso=date(2020,1,1),
                       dni= "nacnal", libreta_civica="nacional", libreta_enrolamiento="naci", pasaporte="nacnal"):
         tipo_documento = TipoDocumento()
@@ -91,4 +125,3 @@ class AlumnoTestCase(unittest.TestCase):
         alumno.nro_legajo = nro_legajo
         alumno.fecha_ingreso = fecha_ingreso
         return alumno
-        

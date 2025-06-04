@@ -17,14 +17,34 @@ class TipoDedicacionTestCase(unittest.TestCase):
         db.drop_all()  # Limpiar todas las tablas
         self.app_context.pop()
 
-    def test_tipodedicacion_creation(self):
-        tipodedicacion = TipoDedicacion()
-        tipodedicacion.nombre = "Dedicacion Completa"
-        tipodedicacion.observacion = "Observacion de prueba"
-
-        # Save to database
-        db.session.add(tipodedicacion)
+    def test_tipodedicacion_create(self):
+        tipo = TipoDedicacion(nombre="Exclusiva")
+        db.session.add(tipo)
         db.session.commit()
+        self.assertIsNotNone(tipo.id)
 
-        # Verify it was saved
-        self.assertIsNotNone(tipodedicacion.id)
+    def test_tipodedicacion_read(self):
+        tipo = TipoDedicacion(nombre="Simple")
+        db.session.add(tipo)
+        db.session.commit()
+        found = TipoDedicacion.query.filter_by(nombre="Simple").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "Simple")
+
+    def test_tipodedicacion_update(self):
+        tipo = TipoDedicacion(nombre="Parcial")
+        db.session.add(tipo)
+        db.session.commit()
+        tipo.nombre = "Completa"
+        db.session.commit()
+        updated = TipoDedicacion.query.get(tipo.id)
+        self.assertEqual(updated.nombre, "Completa")
+
+    def test_tipodedicacion_delete(self):
+        tipo = TipoDedicacion(nombre="Temporal")
+        db.session.add(tipo)
+        db.session.commit()
+        db.session.delete(tipo)
+        db.session.commit()
+        deleted = TipoDedicacion.query.get(tipo.id)
+        self.assertIsNone(deleted)

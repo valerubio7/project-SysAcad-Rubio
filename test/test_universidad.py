@@ -18,6 +18,7 @@ class UniversidadTestCase(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+        db.engine.dispose()
         self.app_context.pop()
 
     def test_universidad_creation(self):
@@ -66,6 +67,37 @@ class UniversidadTestCase(unittest.TestCase):
         resultado = UniversidadService.buscar_por_id(universidad.id)
         self.assertIsNone(resultado)
 
+    def test_universidad_create(self):
+        universidad = Universidad(nombre="UTN", sigla="UTN")
+        db.session.add(universidad)
+        db.session.commit()
+        self.assertIsNotNone(universidad.id)
+
+    def test_universidad_read(self):
+        universidad = Universidad(nombre="UBA", sigla="UBA")
+        db.session.add(universidad)
+        db.session.commit()
+        found = Universidad.query.filter_by(nombre="UBA").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.sigla, "UBA")
+
+    def test_universidad_update(self):
+        universidad = Universidad(nombre="UNLP", sigla="UNLP")
+        db.session.add(universidad)
+        db.session.commit()
+        universidad.sigla = "UNLZ"
+        db.session.commit()
+        updated = db.session.get(Universidad, universidad.id)
+        self.assertEqual(updated.sigla, "UNLZ")
+
+    def test_universidad_delete(self):
+        universidad = Universidad(nombre="UNC", sigla="UNC")
+        db.session.add(universidad)
+        db.session.commit()
+        db.session.delete(universidad)
+        db.session.commit()
+        deleted = db.session.get(Universidad, universidad.id)
+        self.assertIsNone(deleted)
 
     def __nuevauniversidad(self):
         universidad = Universidad()

@@ -19,6 +19,7 @@ class TipoEspecialidadTestCase(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+        db.engine.dispose()
         self.app_context.pop()
 
     def test_tipoespecialidad_creation(self):
@@ -76,3 +77,35 @@ class TipoEspecialidadTestCase(unittest.TestCase):
         tipoespecialidad.nombre = nombre
         tipoespecialidad.nivel = nivel
         return tipoespecialidad
+
+    def test_tipoespecialidad_create(self):
+        tipo = TipoEspecialidad(nombre="Ingeniería")
+        db.session.add(tipo)
+        db.session.commit()
+        self.assertIsNotNone(tipo.id)
+
+    def test_tipoespecialidad_read(self):
+        tipo = TipoEspecialidad(nombre="Licenciatura")
+        db.session.add(tipo)
+        db.session.commit()
+        found = TipoEspecialidad.query.filter_by(nombre="Licenciatura").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "Licenciatura")
+
+    def test_tipoespecialidad_update(self):
+        tipo = TipoEspecialidad(nombre="Tecnicatura")
+        db.session.add(tipo)
+        db.session.commit()
+        tipo.nombre = "Posgrado"
+        db.session.commit()
+        updated = db.session.get(TipoEspecialidad, tipo.id)
+        self.assertEqual(updated.nombre, "Posgrado")
+
+    def test_tipoespecialidad_delete(self):
+        tipo = TipoEspecialidad(nombre="Doctorado")
+        db.session.add(tipo)
+        db.session.commit()
+        db.session.delete(tipo)
+        db.session.commit()
+        deleted = db.session.get(TipoEspecialidad, tipo.id)
+        self.assertIsNone(deleted)

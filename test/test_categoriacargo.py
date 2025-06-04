@@ -18,12 +18,34 @@ class CategoriaCargoTestCase(unittest.TestCase):
         db.drop_all()  # Limpiar todas las tablas
         self.app_context.pop()
 
-    def test_categoriacargo_creation(self):
-        categoria = CategoriaCargo()
-        categoria.nombre = "Docente"
-
+    def test_categoriacargo_create(self):
+        categoria = CategoriaCargo(nombre="Docente")
         db.session.add(categoria)
         db.session.commit()
-
         self.assertIsNotNone(categoria.id)
-        self.assertEqual(categoria.nombre, "Docente")
+
+    def test_categoriacargo_read(self):
+        categoria = CategoriaCargo(nombre="Investigador")
+        db.session.add(categoria)
+        db.session.commit()
+        found = CategoriaCargo.query.filter_by(nombre="Investigador").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "Investigador")
+
+    def test_categoriacargo_update(self):
+        categoria = CategoriaCargo(nombre="Extensionista")
+        db.session.add(categoria)
+        db.session.commit()
+        categoria.nombre = "Administrativo"
+        db.session.commit()
+        updated = db.session.get(CategoriaCargo, categoria.id)
+        self.assertEqual(updated.nombre, "Administrativo")
+
+    def test_categoriacargo_delete(self):
+        categoria = CategoriaCargo(nombre="Becario")
+        db.session.add(categoria)
+        db.session.commit()
+        db.session.delete(categoria)
+        db.session.commit()
+        deleted = db.session.get(CategoriaCargo, categoria.id)
+        self.assertIsNone(deleted)

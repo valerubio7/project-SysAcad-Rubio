@@ -66,6 +66,37 @@ class TipoDocumentoTestCase(unittest.TestCase):
         resultado = TipoDocumentoService.buscar_por_id(tipodocumento.id)
         self.assertIsNone(resultado)
 
+    def test_tipodocumento_create(self):
+        tipo = TipoDocumento(dni="DNI", libreta_civica="12345678", libreta_enrolamiento="87654321", pasaporte="AB123456")
+        db.session.add(tipo)
+        db.session.commit()
+        self.assertIsNotNone(tipo.id)
+
+    def test_tipodocumento_read(self):
+        tipo = TipoDocumento(dni="Pasaporte", libreta_civica="", libreta_enrolamiento="", pasaporte="AB123456")
+        db.session.add(tipo)
+        db.session.commit()
+        found = TipoDocumento.query.filter_by(dni="Pasaporte").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.dni, "Pasaporte")
+
+    def test_tipodocumento_update(self):
+        tipo = TipoDocumento(dni="Libreta Cívica", libreta_civica="", libreta_enrolamiento="", pasaporte="")
+        db.session.add(tipo)
+        db.session.commit()
+        tipo.dni = "Libreta Enrolamiento"
+        db.session.commit()
+        updated = db.session.get(TipoDocumento, tipo.id)
+        self.assertEqual(updated.dni, "Libreta Enrolamiento")
+
+    def test_tipodocumento_delete(self):
+        tipo = TipoDocumento(dni="Provisorio", libreta_civica="", libreta_enrolamiento="", pasaporte="")
+        db.session.add(tipo)
+        db.session.commit()
+        db.session.delete(tipo)
+        db.session.commit()
+        deleted = db.session.get(TipoDocumento, tipo.id)
+        self.assertIsNone(deleted)
 
     def __nuevotipodoumento(self, dni="DNI", libreta_civica="12345678", libreta_enrolamiento="87654321", pasaporte="AB123456"):
         tipodocumento = TipoDocumento()

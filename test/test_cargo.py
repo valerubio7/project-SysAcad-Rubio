@@ -19,25 +19,34 @@ class CargoTestCase(unittest.TestCase):
         db.drop_all()  # Limpiar todas las tablas
         self.app_context.pop()
 
-    def test_cargo_creation(self):
-        cargo = Cargo()
-        cargo.nombre = "profesor"
-        cargo.puntos = 10
-
-        categoria_cargo = CategoriaCargo()
-        categoria_cargo.nombre = "Categoria A"
-        db.session.add(categoria_cargo)
-        db.session.commit()
-
-        tipo_dedicacion = TipoDedicacion()
-        tipo_dedicacion.nombre = "Full Time"
-        db.session.add(tipo_dedicacion)
-        db.session.commit()
-
-        cargo.categoria_cargo = categoria_cargo
-        cargo.tipo_dedicacion = tipo_dedicacion
-
+    def test_cargo_create(self):
+        cargo = Cargo(nombre="Titular", puntos=10)
         db.session.add(cargo)
         db.session.commit()
-
         self.assertIsNotNone(cargo.id)
+
+    def test_cargo_read(self):
+        cargo = Cargo(nombre="Adjunto", puntos=8)
+        db.session.add(cargo)
+        db.session.commit()
+        found = Cargo.query.filter_by(nombre="Adjunto").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.puntos, 8)
+
+    def test_cargo_update(self):
+        cargo = Cargo(nombre="JTP", puntos=6)
+        db.session.add(cargo)
+        db.session.commit()
+        cargo.puntos = 7
+        db.session.commit()
+        updated = db.session.get(Cargo, cargo.id)
+        self.assertEqual(updated.puntos, 7)
+
+    def test_cargo_delete(self):
+        cargo = Cargo(nombre="Ayudante", puntos=4)
+        db.session.add(cargo)
+        db.session.commit()
+        db.session.delete(cargo)
+        db.session.commit()
+        deleted = db.session.get(Cargo, cargo.id)
+        self.assertIsNone(deleted)

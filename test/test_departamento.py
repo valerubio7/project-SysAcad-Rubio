@@ -69,3 +69,35 @@ class DepartamentoTestCase(unittest.TestCase):
         departamento = Departamento()
         departamento.nombre = nombre
         return departamento
+
+    def test_departamento_create(self):
+        departamento = Departamento(nombre="Ciencias Básicas")
+        db.session.add(departamento)
+        db.session.commit()
+        self.assertIsNotNone(departamento.id)
+
+    def test_departamento_read(self):
+        departamento = Departamento(nombre="Ingeniería")
+        db.session.add(departamento)
+        db.session.commit()
+        found = Departamento.query.filter_by(nombre="Ingeniería").first()
+        self.assertIsNotNone(found)
+        self.assertEqual(found.nombre, "Ingeniería")
+
+    def test_departamento_update(self):
+        departamento = Departamento(nombre="Electrónica")
+        db.session.add(departamento)
+        db.session.commit()
+        departamento.nombre = "Informática"
+        db.session.commit()
+        updated = db.session.get(Departamento, departamento.id)
+        self.assertEqual(updated.nombre, "Informática")
+
+    def test_departamento_delete(self):
+        departamento = Departamento(nombre="Química")
+        db.session.add(departamento)
+        db.session.commit()
+        db.session.delete(departamento)
+        db.session.commit()
+        deleted = db.session.get(Departamento, departamento.id)
+        self.assertIsNone(deleted)

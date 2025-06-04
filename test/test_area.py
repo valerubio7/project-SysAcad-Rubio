@@ -42,7 +42,7 @@ class AreaTestCase(unittest.TestCase):
         db.session.commit()
         area.nombre = "biologia"
         db.session.commit()
-        updated = Area.query.get(area.id)
+        updated = db.session.get(Area, area.id)
         self.assertEqual(updated.nombre, "biologia")
 
     def test_area_delete(self):
@@ -51,5 +51,5 @@ class AreaTestCase(unittest.TestCase):
         db.session.commit()
         db.session.delete(area)
         db.session.commit()
-        deleted = Area.query.get(area.id)
+        deleted = db.session.get(Area, area.id)
         self.assertIsNone(deleted)
