@@ -1,12 +1,15 @@
 import logging
 from flask import Flask
 import os
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from app.config import config
 
 db = SQLAlchemy()
 migrate=Migrate()
+ma = Marshmallow()
+
 def create_app() -> Flask:
     """
     Using an Application Factory
@@ -19,6 +22,11 @@ def create_app() -> Flask:
     app.config.from_object(f)
     db.init_app(app)
     migrate.init_app(app,db)
+
+    from app.resources import home, universidad_bp, area_bp
+    app.register_blueprint(home, url_prefix='/api/v1')
+    app.register_blueprint(universidad_bp, url_prefix='/api/v1')
+    app.register_blueprint(area_bp, url_prefix='/api/v1')
 
     @app.shell_context_processor    
     def ctx():

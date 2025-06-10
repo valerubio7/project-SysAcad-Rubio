@@ -1,8 +1,3 @@
-"""
-This module defines the `Universidad` class.
-
-"""
-
 from dataclasses import dataclass
 from app import db
 
