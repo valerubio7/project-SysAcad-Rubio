@@ -19,6 +19,12 @@ package "Sistema Académico"{
             LibretaEnrolamiento
             Pasaporte
         }
+
+        class Usuario {
+            - username: str
+            - password: str
+            - activated: str
+        }
     }
 
     class Universidad {
@@ -114,5 +120,6 @@ package "Sistema Académico"{
     Facultad -- Universidad
     Cargo -- CategoriaCargo
     Cargo -- TipoDedicacion
+    Alumno -- Usuario
 }
 @enduml
