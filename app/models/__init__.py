@@ -1,4 +1,17 @@
-from .user import User
-from .role import Role
-from .user_data import UserData
-from .profile import Profile
+from .alumno import Alumno  # noqa: F401
+from .autoridad import Autoridad  # noqa: F401
+from .cargo import Cargo  # noqa: F401
+from .categoria_cargo import CategoriaCargo  # noqa: F401
+from .facultad import Facultad  # noqa: F401
+from .orientacion import Orientacion  # noqa: F401
+from .plan import Plan  # noqa: F401
+from .tipo_dedicacion import TipoDedicacion  # noqa: F401
+from .tipodocumento import TipoDocumento  # noqa: F401
+from .universidad import Universidad  # noqa: F401
+from .area import Area  # noqa: F401
+from .departamento import Departamento  # noqa: F401
+from .especialidad import Especialidad  # noqa: F401
+from .grado import Grado  # noqa: F401
+from .grupo import Grupo  # noqa: F401
+from .materia import Materia  # noqa: F401
+from .tipo_especialidad import TipoEspecialidad  # noqa: F401
