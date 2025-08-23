@@ -12,13 +12,13 @@ Features
 - Student dashboard: subject and final exam inscriptions, grade tracking
 - Professor dashboard: manage grades and view final inscriptions
 - Regular student certificate generation (DOCX via docxtpl)
-- Role-based access control (decorators/checks)
+- Role-based access control
 
 Tech Stack
 ---------
 
 - Backend: Python 3, Django
-- Frontend: Django Templates, HTML5, CSS, JavaScript
+- Frontend: Django Templates, HTML5, CSS
 - Database: PostgreSQL by default (configurable via environment variables)
 - Containerization: Docker + docker-compose
 - Documents: docxtpl for generating certificates
@@ -64,11 +64,11 @@ DEBUG=1
 ALLOWED_HOSTS=localhost,127.0.0.1
 
 # PostgreSQL settings (required)
-POSTGRES_DB=ams
-POSTGRES_USER=ams
-POSTGRES_PASSWORD=ams
+POSTGRES_DB=sysacad_database
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin
 # Use `db` when running with docker-compose, or `localhost` if Postgres runs locally
-DATABASE_HOST=localhost
+DATABASE_HOST=db
 DATABASE_PORT=5432
 ```
 
@@ -93,17 +93,6 @@ Local Setup
 3. Configure environment variables (dotenv is read in ``main/settings.py``)
 
   Create a ``.env`` in the project root:
-
-  ```bash
-  SECRET_KEY=dev-secret
-  DEBUG=1
-  ALLOWED_HOSTS=localhost,127.0.0.1
-  POSTGRES_DB=ams
-  POSTGRES_USER=ams
-  POSTGRES_PASSWORD=ams
-  DATABASE_HOST=localhost
-  DATABASE_PORT=5432
-  ```
 
 4. Apply migrations
 
@@ -212,3 +201,12 @@ License
 -------
 
 GPLv3. See the ``LICENSE`` file for details.
+
+Development team
+-------
+
+- Valentin Rubio
+- Pablo Geyer
+- Luciano Castro
+- Santiago Calzzonari
+- Santiago Oses
