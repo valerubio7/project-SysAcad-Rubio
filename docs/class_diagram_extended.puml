@@ -3,7 +3,7 @@ skinparam classAttributeIconSize 0
 skinparam packageStyle rectangle
 hide circle
 
-title Academic Management System - Class Diagram
+title SysAcad - Class Diagram
 
 package users {
   class CustomUser {

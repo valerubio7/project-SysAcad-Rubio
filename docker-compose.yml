@@ -12,10 +12,10 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - AMS_network
+      - sysacad_network
 
   backend:
-    image: ams:dev
+    image: sysacad:dev
     build:  .
     volumes:
       - .:/app  # only for development, not recommended for production
@@ -33,11 +33,11 @@ services:
     depends_on:
       - db
     networks:
-      - AMS_network
+      - sysacad_network
 
 networks:
-  AMS_network:
-    name: AMS_network
+  sysacad_network:
+    name: sysacad_network
 
 volumes:
   db_data:
