@@ -97,6 +97,7 @@ Local Setup
 4. Apply migrations
 
   ```bash
+  python manage.py makemigrations
   python manage.py migrate
   ```
 
