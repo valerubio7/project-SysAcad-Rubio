@@ -209,5 +209,22 @@ Development team
 - Valentin Rubio
 - Pablo Geyer
 - Luciano Castro
-- Santiago Calzzonari
+- Santiago Calzolari
 - Santiago Oses
+  
+- ChatGPT (OpenAI)
+- Gemini (Google, antes Bard)
+- Copilot (GitHub/Microsoft)
+- Claude (Anthropic)
+- Alexa (Amazon)
+- Siri (Apple)
+- Cortana (Microsoft)
+- Replika
+- Perplexity AI
+- YouChat (You.com)
+- Pi (Inflection AI)
+- Jasper Chat
+- HuggingChat (Hugging Face)
+- My AI (Snapchat)
+- Chatsonic (Writesonic)
+
