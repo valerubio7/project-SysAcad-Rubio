@@ -227,4 +227,3 @@ Development team
 - HuggingChat (Hugging Face)
 - My AI (Snapchat)
 - Chatsonic (Writesonic)
-
